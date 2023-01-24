@@ -23,7 +23,7 @@ const VideoCard = ({ thumnail, videoTitle, channelName, videoId, publishedTime ,
                                 lineHeight={"20px"}
                                 px={2}
                                 sx={{
-                                    maxWidth:"250px",
+                                    maxWidth:"200px",
                                     overflow: "hidden",
                                     textOverflow: "ellipsis",
                                     whiteSpace: "nowrap",
