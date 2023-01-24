@@ -23,6 +23,12 @@ const Header = () => {
     setCategory(inputValue)
   }
 
+  const goToHome = () => {
+    navigate("/")
+    setLoading("true")
+    setCategory("react")
+  }
+
   return (
     <header>
       <nav>
@@ -31,9 +37,7 @@ const Header = () => {
             <Hide below='md'>
               <IoMenuOutline size={"2rem"} cursor={"pointer"} />
             </Hide>
-            <Link to={"/"}>
-            <Image src={Logo} alt="logo" w={"120px"} cursor={"pointer"} />
-            </Link>
+            <Image src={Logo} alt="logo" w={"120px"} cursor={"pointer"} onClick={()=>goToHome()} />
           </HStack>
           <HStack>
           <form onSubmit={(e) => handleSubmit(e)}>
