@@ -1,47 +1,63 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import axios from 'axios'
+import React, { useContext } from 'react'
 import VideoCard from '../components/VideoCard'
-const baseURL = 'https://youtube-v31.p.rapidapi.com'
+import { contextData } from '../App'
+import Loader from "../components/Loader"
+import ChannelCard from '../components/ChannelCard'
+import PlaylistCard from '../components/PlaylistCard'
+
 
 const Homepage = () => {
-  const [category, setCategory] = useState("New")
-  const [videos, setVideos] = useState([])
 
-  const options = {
-    params: {
-      maxResults: '50'
-    },
-    headers: {
-      'X-RapidAPI-Key': 'daf1e1518dmsh2c2f5d2c3d5204ep17123ejsn3bc645cb368d',
-      'X-RapidAPI-Host': 'youtube-v31.p.rapidapi.com'
-    }
-  };
-
-  useEffect(() => {
-    const fetchFeed = async () => {
-      const { data } = await axios.get(`${baseURL}/search?part=snippet&q=${category}`, options)
-      setVideos(data.items)
-    }
-    fetchFeed()
-  }, [])
-
-
+  const { videos, loading } = useContext(contextData)
+  const channelsArr = videos.filter((item) => item.type == "channel")
+  const videosArr = videos.filter((item) => item.type == "video")
+  const playlistsArr = videos.filter((item) => item.type == "playlist")
+  console.log(channelsArr);
+  console.log(videosArr);
+  console.log(playlistsArr);
 
   return (
-    <div className='videos-grid'>
-      {videos.map((video)=>{
-        return (
-          <VideoCard
-            key={video.id.videoId}
-            thumnail={video.snippet.thumbnails.medium.url}
-            videoTitle={video.snippet.title}
-            channelName={video.snippet.channelTitle}
-            videoId={video.id.videoId}
-          />
+
+    loading ? <Loader height={"100vh"} width={"100%"} /> :
+      <div className='videos-grid'>
+        {channelsArr.length && channelsArr.map((channel) => {
+          return (
+            <ChannelCard
+              subs={channel.subscriberCount}
+              title={channel.title}
+              desc={channel.description}
+              logo={channel.thumbnail[1].url}
+            />
           )
-      })}
-    </div>
+        })}
+        {videosArr.length && videosArr.map((video) => {
+          return (
+            <VideoCard
+              key={video.videoId}
+              thumnail={video.thumbnail[0].url}
+              videoTitle={video.title}
+              channelName={video.channelTitle}
+              videoId={video.videoId}
+              publishedTime={video.publishedText}
+              viewCount={video.viewCount}
+              channelLogo={video.channelThumbnail[0].url}
+            />
+          )
+        })}
+        {playlistsArr.length && playlistsArr.map((playlist) => {
+          return (
+            <PlaylistCard
+              thumbnail={playlist.thumbnail[3].url}
+              title={playlist.title}
+              channelName={playlist.channelTitle}
+            />
+          )
+        })}
+
+
+
+
+      </div>
   )
 }
 
