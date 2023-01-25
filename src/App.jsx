@@ -5,6 +5,8 @@ import Header from './components/Header'
 import Homepage from './pages/Homepage'
 import PLaybackPage from './pages/PLaybackPage'
 import Navbar from './components/Navbar'
+import randomWord from "random-words"
+
 
 
 
@@ -14,7 +16,7 @@ export const contextData = createContext()
 
 
 const App = () => {
-  const [category, setCategory] = useState("javascript")
+  const [category, setCategory] = useState(randomWord())
   const [content, setContent] = useState([])
   const [loading, setLoading] = useState(true);
   const [currentLogo, setCurrentLogo] = useState(null)
