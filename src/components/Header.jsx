@@ -7,6 +7,7 @@ import createImg from '../assets/create-video-big.png'
 import { contextData } from '../App'
 import { Link, useNavigate } from 'react-router-dom'
 import DrawerComp from './DrawerComp'
+import randomWord from "random-words"
 
 
 
@@ -31,7 +32,7 @@ const Header = () => {
 
   const goToHome = () => {
     setLoading("true")
-    setCategory("react")
+    setCategory(randomWord())
     navigate("/")
     console.log("reached home");
     
