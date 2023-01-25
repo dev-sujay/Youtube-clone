@@ -4,29 +4,35 @@ import { Box, Hide, Stack } from '@chakra-ui/react'
 import VideoCard from "../components/VideoCard"
 import axios from 'axios'
 import Video from '../components/Video'
+import { contextData } from '../App'
+import Loader from '../components/Loader'
+import fallbackRelated from "../utils/relatedData"
+import fallbackVideoDetails from "../utils/videoDetailsData"
 
-const baseURL = 'https://youtube-v31.p.rapidapi.com';
 
 
 const PLaybackPage = () => {
-  const [relatedVideos, setRelatedVideos] = useState([])
-  const [videoDetails, setVideoDetails] = useState([])
+  const [relatedVideos, setRelatedVideos] = useState(fallbackRelated)
+  const [videoDetails, setVideoDetails] = useState(fallbackVideoDetails)
   const { videoId } = useParams()
+  const { loading, setLoading } = useContext(contextData)
 
-  const options1 = {
+  
 
+  const optionsRelated = {
+    method: 'GET',
     url: 'https://youtube-v3-alternative.p.rapidapi.com/related',
-    params: {id: 'dQw4w9WgXcQ', geo: 'US', lang: 'en'},
+    params: { id: `${videoId}` },
     headers: {
       'X-RapidAPI-Key': '6060122db1msha7de30c9142ec8bp1fda25jsn9979cadb62de',
       'X-RapidAPI-Host': 'youtube-v3-alternative.p.rapidapi.com'
     }
   };
 
-  const options2 = {
+  const optionsVideoDetails = {
 
     url: 'https://youtube-v3-alternative.p.rapidapi.com/video',
-    params: {id: 'dQw4w9WgXcQ'},
+    params: {id: `${videoId}`},
     headers: {
       'X-RapidAPI-Key': '6060122db1msha7de30c9142ec8bp1fda25jsn9979cadb62de',
       'X-RapidAPI-Host': 'youtube-v3-alternative.p.rapidapi.com'
@@ -35,16 +41,18 @@ const PLaybackPage = () => {
 
   useEffect(() => {
 
-    const fetchVideoDetails = async () => {
-      const { data: details } = await axios.get(options2)
-      console.log(details);
-    }
-    fetchVideoDetails()
+  const fetchVideoDetails = async () => {
+    const { data: details } = await axios.request(optionsVideoDetails)
+  setVideoDetails(details)
+  setLoading(false)
+  }
+  fetchVideoDetails()
 
     const fetchRealatedVideos = async () => {
-      const { data: related } = await axios.get(options1)
-      setRelatedVideos(related.items)
-      // console.log(related.items);
+      const { data: related } = await axios.request(optionsRelated)
+      setRelatedVideos(related.data)
+
+      setLoading(false)
     }
     fetchRealatedVideos()
 
@@ -53,21 +61,41 @@ const PLaybackPage = () => {
 
   return (
 
-    <Stack flexDir={["column", "column", "row"]} justifyContent={"space-evenly"}>
-      <Video videoId={videoId}/>
+    <Stack flexDir={["column", "column","column", "row"]} justifyContent={"space-evenly"} gap={"1rem"} ml={[0,0,"6rem"]}>
+
+      <Video
+        videoId={videoId}
+        title={videoDetails.title}
+        channelName={videoDetails.channelTitle}
+        viewCount={videoDetails.viewCount}
+        channelId= {videoDetails.channelId}
+      />
       <Hide below='md'>
-        <Box height={"100vh"} overflowY={"scroll"} className='videos-grid'>
-          {relatedVideos.map((video) => {
+        <Box height={["max-content","max-content","max-content","105vh"]} overflowY={["clip","clip", "auto"]} className='videos-grid' sx={
+          {
+            '::-webkit-scrollbar': {
+              display: 'none'
+            }
+          }
+        } >
+          {loading ? <Loader /> :
+
+          relatedVideos.map((video) => {
             return (
               <VideoCard
-                key={video.id.videoId}
-                thumnail={video.snippet.thumbnails.medium.url}
-                videoTitle={video.snippet.title}
-                channelName={video.snippet.channelTitle}
-                videoId={video.id.videoId}
+                key={video.videoId}
+                thumnail={video.thumbnail[1].url}
+                videoTitle={video.title}
+                channelName={video.channelTitle}
+                videoId={video.videoId}
+                publishedTime={video.publishedTimeText}
+                viewCount={video.viewCount}
+                channelLogo={video.authorThumbnail[0].url}
               />
             )
-          })}
+          })
+
+          }
         </Box>
       </Hide>
     </Stack>

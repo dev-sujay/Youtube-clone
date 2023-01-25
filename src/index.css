@@ -7,7 +7,18 @@
     font-family: sans-serif;
 }
 
+::-webkit-scrollbar {
+    width: 8px;
+}
 
+::-webkit-scrollbar-thumb {
+    background-color: #cfcfcf;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
 
 .videos-grid{
     display: grid;
@@ -16,6 +27,7 @@
     row-gap: 2rem;
     padding: 10px;
     margin: 1rem auto;
+    margin-left: 5rem;
 }
 
 .video-react .video-react-big-play-button{
@@ -32,3 +44,4 @@
 .ytp-pause-overlay{
     display: none;
 }
+   

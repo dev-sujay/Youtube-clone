@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 const PlaylistCard = ({ thumbnail, title, channelName }) => {
   return (
-    <VStack className='channel-card' alignItems={"center"}>
+    <VStack className='playlist-card' alignItems={"center"}>
       <Box p={2} mb={2}>
         {/* <Link to={`/video/${videoId}`} > */}
         <Image src={thumbnail} alt="video thumbnail" w={["95vw", "100%"]} borderRadius={10} />

@@ -6,6 +6,8 @@ import Logo from '../assets/youtube-logo.png'
 import createImg from '../assets/create-video-big.png'
 import { contextData } from '../App'
 import { Link, useNavigate } from 'react-router-dom'
+import DrawerComp from './DrawerComp'
+
 
 
 const Header = () => {
@@ -16,32 +18,40 @@ const Header = () => {
   const handleChange = (e) => {
     setInputValue(e.target.value)
   }
+  
   const handleSubmit = (e) => {
     e.preventDefault()
-    navigate("/")
     setLoading("true")
     setCategory(inputValue)
+    navigate("/")
+    
   }
 
   const goToHome = () => {
-    navigate("/")
     setLoading("true")
     setCategory("react")
+    navigate("/")
+    
   }
 
   return (
-    <header>
-      <nav>
+    <header style={{
+      position:"sticky",
+      top:"-1px",
+      background:"#0f0f0f",
+      zIndex:100
+    }}>
+      <nav >
         <HStack height={"60px"} justifyContent={"space-between"} px={[0, 8]} alignItems={"center"} >
           <HStack>
             <Hide below='md'>
-              <IoMenuOutline size={"2rem"} cursor={"pointer"} />
+            <DrawerComp />
             </Hide>
             <Image src={Logo} alt="logo" w={"120px"} cursor={"pointer"} onClick={()=>goToHome()} />
           </HStack>
           <HStack>
           <form onSubmit={(e) => handleSubmit(e)}>
-            <InputGroup w={["50vw", "50vw", "480px"]} mx={2}>
+            <InputGroup w={["50vw", "50vw", "50vw", "480px"]} mx={2}>
               <Input
                 placeholder="Search"
                 borderRadius={"full"}
@@ -70,10 +80,10 @@ const Header = () => {
               <MdKeyboardVoice size={"1.5rem"} cursor={"pointer"} />
             </Hide>
           </HStack>
-          <HStack w={["50px","50px", "150px"]} justifyContent={"space-evenly"}>
+          <HStack w={["50px","50px", "20%"]} justifyContent={"space-evenly"}>
             <Hide below='md'>
-              <Image src={createImg} alt="create" w={"3.2rem"} cursor={"pointer"} borderRadius={"full"} p={2} />
-              <MdOutlineNotificationsNone size={"2.8rem"} cursor={"pointer"} style={{ padding: "10px" }} />
+              <Image src={createImg} alt="create-content" w={"2.8rem"} cursor={"pointer"} />
+              <MdOutlineNotificationsNone size={"1.8rem"} cursor={"pointer"}  />
             </Hide>
             <Avatar size="sm" name='Sujay Paul' src="https://res.cloudinary.com/da5mimn3m/image/upload/v1672496743/profile_wdau7a.jpg" cursor={"pointer"} />
           </HStack>
