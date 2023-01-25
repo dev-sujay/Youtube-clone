@@ -15,15 +15,17 @@ const Header = () => {
   const navigate = useNavigate()
 
   const [inputValue, setInputValue] = useState("")
+
   const handleChange = (e) => {
     setInputValue(e.target.value)
   }
-  
+
   const handleSubmit = (e) => {
     e.preventDefault()
     setLoading("true")
     setCategory(inputValue)
     navigate("/")
+    console.log("searched");
     
   }
 
@@ -31,6 +33,7 @@ const Header = () => {
     setLoading("true")
     setCategory("react")
     navigate("/")
+    console.log("reached home");
     
   }
 

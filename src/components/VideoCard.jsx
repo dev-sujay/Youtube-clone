@@ -7,17 +7,18 @@ import Format from "./NumberFormatter"
 
 const VideoCard = ({ thumnail, videoTitle, channelName, videoId, publishedTime, viewCount, channelLogo }) => {
 
-    const { setCurrentLogo, setCurrentPublishTime } = useContext(contextData)
+    const { setCurrentLogo, setCurrentPublishTime, setCurrentTitle } = useContext(contextData)
 
     const sendVideoDetails = () => {
         setCurrentLogo(channelLogo)
         setCurrentPublishTime(publishedTime)
+        setCurrentTitle(videoTitle)
     }
 
     return (
 
         <VStack alignItems={"flex-start"} p={2} borderRadius={6} className="video-card">
-            <Box p={2} mb={2} w={["95vw", "100%"]}>
+            <Box p={2} mb={2} w={"100%"}>
                 <Link to={`/video/${videoId}`}>
                     <Image src={thumnail} alt="video thumbnail" w={"100%"} borderRadius={10} onClick={() => sendVideoDetails()} />
                 </Link>

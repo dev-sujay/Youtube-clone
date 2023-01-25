@@ -13,19 +13,19 @@ const Video = ({ channelId, viewCount, channelName, title }) => {
 
   const { currentLogo, currenPublishTime, loading, setLoading } = useContext(contextData)
   const [comments, setComments] = useState(fallbackCommentsData.data)
-  const {videoId} = useParams()
+  const { videoId } = useParams()
 
   const options = {
     method: 'GET',
     url: 'https://youtube-v3-alternative.p.rapidapi.com/comments',
-    params: {id: 'KxGS-wZcxVE'},
+    params: { id: `${videoId}`},
     headers: {
       'X-RapidAPI-Key': 'daf1e1518dmsh2c2f5d2c3d5204ep17123ejsn3bc645cb368d',
       'X-RapidAPI-Host': 'youtube-v3-alternative.p.rapidapi.com'
     }
   };
 
-   useEffect(() => {
+  useEffect(() => {
 
     const fetchFeed = async () => {
       const res = await axios.request(options)
@@ -34,7 +34,7 @@ const Video = ({ channelId, viewCount, channelName, title }) => {
       setLoading(false)
     }
     fetchFeed()
-  },[videoId])
+  }, [videoId])
 
 
   return (
@@ -67,24 +67,25 @@ const Video = ({ channelId, viewCount, channelName, title }) => {
       <VStack alignItems={"flex-start"}>
         <Heading
           fontSize={"lg"}
-          px={2}
+          px={"4"}
           fontWeight={"semibold"}
-          style={{ marginTop: "1rem" }}>
+          style={{ marginTop: "1rem"}}>
           Comments
         </Heading>
-        { loading ? <Loader/> :
-          
+        {loading ? <Loader /> :
+
           comments.map((item) => {
-          return (
-            <CommetsComp
-              photo={item.authorProfileImageUrl[2].url}
-              name={item.authorDisplayName}
-              publishTime={item.publishedTimeText}
-              commentText={item.textDisplay}
-              likesCount={item.likesCount}
-            />
-          )
-        })}
+            return (
+              <CommetsComp
+                key={item.commentId}
+                photo={item.authorProfileImageUrl[2].url}
+                name={item.authorDisplayName}
+                publishTime={item.publishedTimeText}
+                commentText={item.textDisplay}
+                likesCount={item.likesCount}
+              />
+            )
+          })}
 
       </VStack>
     </VStack>
