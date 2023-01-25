@@ -12,7 +12,7 @@ const VideoCard = ({ thumnail, videoTitle, channelName, videoId, publishedTime, 
     const sendVideoDetails = () => {
         setCurrentLogo(channelLogo)
         setCurrentPublishTime(publishedTime)
-        setCurrentTitle(videoTitle)
+        // setCurrentTitle(videoTitle)
     }
 
     return (

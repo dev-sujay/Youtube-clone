@@ -1,4 +1,4 @@
-export default function Format({num}) {
+export default function Format({num = 4518729}) {
     num = num.toString().replace(/[^0-9.]/g, '');
     if (num < 1000) {
         return num;

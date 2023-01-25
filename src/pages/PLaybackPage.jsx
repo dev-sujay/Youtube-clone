@@ -12,8 +12,8 @@ import fallbackVideoDetails from "../utils/videoDetailsData"
 
 
 const PLaybackPage = () => {
-  const [relatedVideos, setRelatedVideos] = useState(fallbackRelated)
-  const [videoDetails, setVideoDetails] = useState(fallbackVideoDetails)
+  const [relatedVideos, setRelatedVideos] = useState([])
+  const [videoDetails, setVideoDetails] = useState({})
   const { videoId } = useParams()
   const { loading, setLoading } = useContext(contextData)
 
@@ -56,7 +56,7 @@ const PLaybackPage = () => {
     }
     fetchRealatedVideos()
 
-  }, [])
+  }, [videoId])
 
 
   return (
@@ -90,7 +90,7 @@ const PLaybackPage = () => {
                 videoId={video.videoId}
                 publishedTime={video.publishedTimeText}
                 viewCount={video.viewCount}
-                channelLogo={video.authorThumbnail[0].url}
+                channelLogo={video.authorThumbnail && video.authorThumbnail[0].url}
               />
             )
           })

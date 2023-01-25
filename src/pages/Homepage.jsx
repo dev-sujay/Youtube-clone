@@ -55,6 +55,7 @@ const Homepage = () => {
           (playlistsArr.map((playlist) => {
             return (
               <PlaylistCard
+                key={playlist.playlistId}
                 thumbnail={playlist.thumbnail[3].url}
                 title={playlist.title}
                 channelName={playlist.channelTitle}
